@@ -1,0 +1,22 @@
+# TODO: use drupal:7-fpm-alpine
+FROM drupal:7
+
+# install Composer globally
+RUN curl -sS https://getcomposer.org/installer | php \
+  && mv composer.phar /usr/local/bin/composer
+
+# install Drush 8.x
+RUN composer global require drush/drush:dev-master \
+  && echo "export PATH=\"$HOME/.composer/vendor/bin:$PATH\"" > ~/.bashrc
+
+# install Drupal Console
+RUN composer global require drupal/console:~1.0 \
+  --prefer-dist \
+  --optimize-autoloader
+
+# Copy OVMS module over
+COPY drupal/ /var/www/html/modules/openvehicles/
+
+# TODO: automatically set up drupal and enable openvehicles module
+
+EXPOSE 80

@@ -1,0 +1,58 @@
+version: '3.1'
+
+services:
+
+  ovmsserver:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    container_name: ovms_api
+    depends_on:
+      - mysql
+    env_file: .env
+    ports:
+      - 6867:6867 # v2 (standard)
+      - 6870:6870 # v2 (SSL/TLS)
+      - 6868:6868 # REST (plain HTTP)
+      - 6869:6869 # REST (SSL/TLS HTTPS)
+    volumes:
+      - /app/conf
+    networks:
+      - internal
+      - external
+    restart: always
+
+  drupal:
+    build:
+      context: .
+      dockerfile: Dockerfile.drupal
+    container_name: ovms_web
+    depends_on:
+      - mysql
+    env_file: .env
+    ports:
+      - 8080:80
+    volumes:
+      - /var/www/html/modules
+      - /var/www/html/profiles
+      - /var/www/html/themes
+      # this takes advantage of the feature in Docker that a new anonymous
+      # volume (which is what we're creating here) will be initialized with the
+      # existing content of the image at the same location
+      - /var/www/html/sites
+    networks:
+      - internal
+      - external
+    restart: always
+
+  mysql:
+    image: mysql:5
+    container_name: ovms_db
+    env_file: .env
+    volumes:
+      - /var/lib/mysql
+    networks:
+      - internal
+    restart: always
+
+  # TODO: use jwilder/nginx-proxy:alpine or traefik:latest
