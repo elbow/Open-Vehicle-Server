@@ -19,7 +19,6 @@ services:
       - /app/conf
     networks:
       - internal
-      - external
     restart: always
 
   drupal:
@@ -42,7 +41,6 @@ services:
       - /var/www/html/sites
     networks:
       - internal
-      - external
     restart: always
 
   mysql:
