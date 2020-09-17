@@ -52,6 +52,7 @@ services:
       - .env
     volumes:
       - /var/lib/mysql
+      - ./v3/server/ovms_server.sql:/docker-entrypoint-initdb.d/ovms_server.sql:ro
     networks:
       - internal
     restart: always
