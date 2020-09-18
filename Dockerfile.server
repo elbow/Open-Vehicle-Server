@@ -5,3 +5,6 @@ RUN cpan CPAN::DistnameInfo Config::IniFiles Digest::MD5 Digest::HMAC Crypt::RC4
 
 WORKDIR /app
 COPY v3/* ./
+COPY docker-entrypoint.sh .
+
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
