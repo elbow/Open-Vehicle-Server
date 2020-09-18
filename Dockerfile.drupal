@@ -10,7 +10,7 @@ RUN composer global require drush/drush:8.4.2 \
   && echo "export PATH=\"$HOME/.composer/vendor/bin:$PATH\"" > ~/.bashrc
 
 # Copy OVMS module over
-COPY drupal/ /var/www/html/modules/openvehicles/
+COPY --chown=www-data:www-data drupal/ /var/www/html/sites/all/modules/openvehicles/
 
 # TODO: automatically set up drupal and enable openvehicles module
 
