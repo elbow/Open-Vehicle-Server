@@ -1,0 +1,10 @@
+# TODO: use perl:alpine
+FROM perl:slim
+RUN apt-get update && apt-get install build-essential openssl libdbd-mysql-perl default-libmysqlclient-dev libssl-dev zlib1g-dev -y
+RUN cpan CPAN::DistnameInfo Config::IniFiles Digest::MD5 Digest::HMAC Crypt::RC4::XS MIME::Base64 DBI DBD::mysql EV AnyEvent AnyEvent::HTTP AnyEvent::HTTPD HTTP::Parser::XS Data::UUID Email::MIME Email::Sender::Simple Net::SSLeay JSON::XS Protocol::WebSocket
+
+WORKDIR /app
+COPY v3/* ./
+COPY docker-entrypoint.sh .
+
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
