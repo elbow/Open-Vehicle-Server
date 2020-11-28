@@ -11,6 +11,20 @@ if [ ! -f /app/conf/ovms_server.conf ]; then \
         echo "pass=${MYSQL_PASSWORD}"; \
         echo 'pw_encode=drupal_password($password)'; \
         echo ''; \
+	echo '[plugins]'; \
+	echo 'load=<<EOT'; \
+	echo 'VECE'; \
+	echo 'DbDBI'; \
+	echo 'ApiV2'; \
+	echo 'Push'; \
+	echo 'PushAPNS'; \
+	echo 'PushGCM'; \
+	echo 'PushMAIL'; \
+	echo 'ApiHttp'; \
+	echo 'ApiHttpCore'; \
+	echo 'ApiHttpMqapi'; \
+	echo 'EOT'; \
+	echo ''; \
         echo '[log]'; \
         echo 'level=info'; \
         echo 'history=86400'; \
@@ -34,4 +48,5 @@ if [ ! -f /app/conf/ovms_server.conf ]; then \
     } > /app/conf/ovms_server.conf; \
 fi
 
-exec perl /app/ovms_server.pl >>/var/log/ovms_server.log 2>&1
+IGNORE='exec perl /app/ovms_server.pl >>/var/log/ovms_server.log 2>&1'
+exec perl /app/ovms_server.pl
