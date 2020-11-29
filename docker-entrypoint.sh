@@ -41,12 +41,15 @@ if [ ! -f /app/conf/ovms_server.conf ]; then \
         echo '[mail]'; \
         echo 'enabled=0'; \
         echo 'interval=10'; \
-        echo 'sender=notifications@openvehicles.com'; \
+        echo 'sender=ovmsnotifications@daviesfam.org'; \
         echo ''; \
         echo '[gcm]'; \
         echo 'apikey=<your GCM API key, see README>'; \
     } > /app/conf/ovms_server.conf; \
 fi
+
+cat /cert/privkey.pem /cert/fullchain.pem >/app/conf/ovms_server.pem
+chmod 0600 /app/conf/ovms_server.pem
 
 IGNORE='exec perl /app/ovms_server.pl >>/var/log/ovms_server.log 2>&1'
 exec perl /app/ovms_server.pl
